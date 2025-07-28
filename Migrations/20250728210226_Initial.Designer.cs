@@ -10,7 +10,7 @@ using library_app_bakend.DbContextes;
 namespace library_app_bakend.Migrations
 {
     [DbContext(typeof(LibraryDB))]
-    [Migration("20250725210632_Initial")]
+    [Migration("20250728210226_Initial")]
     partial class Initial
     {
         /// <inheritdoc />

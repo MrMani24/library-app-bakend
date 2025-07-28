@@ -1,12 +1,13 @@
+using library_app_bakend.DbContextes;
+using library_app_bakend.Entites;
+using Microsoft.Extensions.DependencyModel;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
@@ -14,28 +15,84 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
+app.MapGet("books/list", () =>
 {
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+    using var db = new LibraryDB();
+    return db.Books.ToList();
+});
+app.MapPost("books/create", (Book book) =>
+{
+    using var db = new LibraryDB();
+    db.Books.Add(book);
+    db.SaveChanges();
+    return "books Creatd!";
+});
+app.MapPut("books/update/{id}", (int id, Book book) =>
+{
+    using var db = new LibraryDB();
+    var b = db.Books.Find(id);
+    if (b == null)
+    {
+        return "Book not fonud!";
+    }
+    b.Title = book.Title;
+    b.Price = book.Price;
+    b.Writer = book.Writer;
+    b.Writer = book.Writer;
+    db.SaveChanges();
+    return "books Updetad";
+});
+app.MapDelete("books/remove/{id}", (int id) =>
+{
+    using var db = new LibraryDB();
+    var book = db.Books.Find(id);
+    if (book == null)
+    {
+        return "not found";
+    }
+    db.Books.Remove(book);
+    db.SaveChanges();
+    return "books Remove";
+});
 
-app.MapGet("/weatherforecast", () =>
+app.MapGet("member/list", () =>
 {
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
+    using var db = new LibraryDB();
+    return db.Members.ToList();
+});
+app.MapPost("member/create", (Member member) =>
+{
+    using var db = new LibraryDB();
+    db.Members.Add(member);
+    db.SaveChanges();
+    return "Member Created";
+});
+app.MapPut("member/update/{id}", (int id, Member member) =>
+{
+    using var db = new LibraryDB();
+    var s = db.Members.Find(id);
+    if (s == null)
+    {
+        return "Member not fonud!";
+    }
+    s.Firstname = member.Firstname;
+    s.Lastname = member.Lastname;
+    s.Gender = member.Gender;
+    db.SaveChanges();
+    return "Mamber Update";
+});
+app.MapDelete("Member/remove/{id}", (int id) =>
+{
+    using var db = new LibraryDB();
+    var member = db.Members.Find(id);
+    if (member == null)
+    {
+        return "not found";
+    }
+    db.Members.Remove(member);
+    db.SaveChanges();
+    return "member Remove";
+});
 
 app.Run();
 
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
