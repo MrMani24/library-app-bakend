@@ -20,7 +20,7 @@
 mono_crash.*
 
 #Sqlite Files
-DBFiles/
+DBFiles/*
 
 # Build results
 [Dd]ebug/

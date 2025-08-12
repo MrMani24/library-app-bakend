@@ -11,7 +11,7 @@ namespace library_app_bakend.DbContextes
     {
         public DbSet<Book> Books { get; set; }
         public DbSet<Member> Members { get; set; }
-        public DbSet<Member> Borrws { get; set; }
+        public DbSet<Borrow> Borrws { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //base.OnConfiguring(optionsBuilder);

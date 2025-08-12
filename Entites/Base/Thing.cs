@@ -7,6 +7,8 @@ namespace library_app_bakend.Entites.Base
 {
     public abstract class Thing
     {
-        public int id { get; set; }
+        public int Id { get; set; }
+
+        public string Guid { get; set; } = System.Guid.NewGuid().ToString();
     }
 }

@@ -6,10 +6,9 @@ using library_app_bakend.Entites.Base;
 
 namespace library_app_bakend.Entites
 {
-    public class Borrow : Thing
+    public class Borrow : PersonThing
     {
         public required Book Book { get; set; }
-        public required Member Member { get; set; }
         public DateTime BorrwTime { get; set; }
         public DateTime? ReturnTime { get; set; }
     }

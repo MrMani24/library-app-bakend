@@ -2,15 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using library_app_bakend.Entites.Base;
-using library_app_bakend.Enums;
 
-namespace library_app_bakend.Entites
+namespace library_app_bakend.DTOs.Members
 {
-    public class Member : PersonThing
+    public class MemberUpdateUnaAndPssDto
     {
         public required string Username { get; set; }
         public required string Password { get; set; }
-        public required string Wealth { get; set; }
     }
 }
